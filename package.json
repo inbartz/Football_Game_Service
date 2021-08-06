@@ -1,0 +1,32 @@
+{
+  "name": "football_game_service",
+  "version": "1.0.0",
+  "description": "Use to get the fixtures (upcoming matches) and the results of football matches.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .\\index.js",
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inbartz/Football_Game_Service.git"
+  },
+  "author": "Inbar Tzur",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/inbartz/Football_Game_Service/issues"
+  },
+  "homepage": "https://github.com/inbartz/Football_Game_Service#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "client-sessions": "^0.8.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "dotnet": "^1.1.4",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "mssql": "^7.2.0",
+    "multer": "^1.4.2"
+  }
+}
