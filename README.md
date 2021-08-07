@@ -16,7 +16,7 @@ Use to get the fixtures (upcoming matches) and the results of football matches.
 - Get list of matches by team, use: http://localhost:PORT/matches/team?team_name=TEAM_NAME
   
   for example: http://localhost:5000/matches/team?team_name=Liverpool
-- Get list of matches by team filtered by status, use: http://localhost:PORT/matches/status?status=STATUS 
+- Get list of matches by team filtered by status, use: http://localhost:PORT/matches/team?team_name=TEAM_NAME&status=STATUS
 
   for example: http://localhost:5000/matches/status?status=upcoming
 - Get list of matches by tournament, use: http://localhost:PORT/matches/tournament?tournament=TOURNAMENT
