@@ -8,7 +8,6 @@ const session = require("client-sessions");
 const DBUtils = require("./routes/utils/DButils");
 
 
-
 //Routing
 const matchesRouting = require("./routes/matches");
 
