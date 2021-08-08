@@ -13,7 +13,7 @@ const matchesRouting = require("./routes/matches");
 
 //App settings and config
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 // Config CORS policy
 const corsConfig = {
