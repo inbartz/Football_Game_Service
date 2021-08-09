@@ -22,7 +22,6 @@ function readCSV(path, status) {
               var id = matches_data.length -1;
               spesific_data.push(new Match_Upcoming(id, row[4]))
             }
-            
         })
     return spesific_data;
 }
@@ -89,15 +88,15 @@ function matches_full_data(matches, played, upcoming){
 function played_match_json(item, index){
   var home_score = played_matches[index].home_score;
     var away_score = played_matches[index].away_score;
-    var row = {home_team: item.home_team, away_team: item.away_team, tournament: item.tournament, 
-              start_time: item.start_time, status: item.status, home_score: home_score, away_score: away_score}
+    var row = {home_team: item.home_team, home_score: home_score, away_team: item.away_team, away_score: away_score, tournament: item.tournament, 
+              start_time: item.start_time, status: item.status}
     return row;
 }
 
 function upcoming_match_json(item, index){
     var kickoff = upcoming_matches[index].kickoff;
     var row = {home_team: item.home_team, away_team: item.away_team, tournament: item.tournament, 
-              start_time: item.start_time, status: item.status, kickoff: kickoff}
+              start_time: item.start_time, kickoff: kickoff, status: item.status}
     return row;
 }
 
