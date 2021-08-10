@@ -9,10 +9,7 @@ const matches_data = [];
 // List of all the played matches extra data as Match_Played class
 const played_matches = readCSV("routes\\utils\\result_played.csv", "played");
 // List of all the upcoming matches extra data as Match_Upcoming class
-const upcoming_matches = readCSV(
-  "routes\\utils\\result_upcoming.csv",
-  "upcoming"
-);
+const upcoming_matches = readCSV("routes\\utils\\result_upcoming.csv","upcoming");
 
 ///// Help functions ////
 function readCSV(path, status) {
@@ -37,8 +34,7 @@ function readCSV(path, status) {
         matches_data.push(
           new Match(home_team, away_team, tournament, row[3], status, index)
         );
-        var id = matches_data.length - 1;
-        specific_data.push(new Match_Upcoming(id, row[4]));
+        specific_data.push(new Match_Upcoming(row[4]));
       }
     });
   return specific_data;
