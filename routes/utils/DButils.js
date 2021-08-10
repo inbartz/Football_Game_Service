@@ -21,35 +21,43 @@ function readCSV(path, status){
         .on('data', function (row) {
             if (status=='played'){
               var index = specific_data.length;
-              matches_data.push(new Match(row[0], row[2], row[4], row[5],status, index))
+              home_team = team_index(row[0]);
+              away_team = team_index(row[2]);
+              tournament = tournament_index(row[4]);
+              matches_data.push(new Match(home_team, away_team, tournament, row[5],status, index))
               specific_data.push(new Match_Played(row[1], row[3]))
-              push_team(row[0]);
-              push_team(row[2]);
-              push_tournament(row[4]);
             }
             else if (status=='upcoming'){
               var index = specific_data.length;
-              matches_data.push(new Match(row[0], row[1], row[2], row[3],status, index))
+              home_team = team_index(row[0]);
+              away_team = team_index(row[1]);
+              tournament = tournament_index(row[2]);
+              matches_data.push(new Match(home_team, away_team, tournament, row[3],status, index))
               var id = matches_data.length -1;
               specific_data.push(new Match_Upcoming(id, row[4]))
-              push_team(row[0]);
-              push_team(row[1]);
-              push_tournament(row[2]);
             }
         })
     return specific_data;
 }
 
-function push_team(team_name){
-    if(!teams_list.includes(team_name)){
-      teams_list.push(team_name);
-    }
+function team_index(team_name){
+  var team = teams_list.filter(element => element.team_name===team_name);
+  if(team===null ||team.length===0){
+    team = new Team(teams_list.length, team_name)
+    teams_list.push(team);
+    return  team;
+  }
+  return team[0];
 }
 
-function push_tournament(tournament){
-    if(!tournament_list.includes(tournament)){
-      tournament_list.push(tournament);
-    }
+function tournament_index(tournament_name){
+  var tournament = tournament_list.filter(element => element.tournament_name===tournament_name);
+  if(tournament===null ||tournament.length===0){
+    tournament = new Tournament(tournament_list.length, tournament_name)
+    tournament_list.push(tournament);
+    return  tournament;
+  }
+  return tournament[0];
 }
 
 
@@ -87,33 +95,17 @@ function upcoming_match_json(item){
 
 
 //// Main functions ////
-function GetTeamById(id){
-  if(id => 0 && id < teams_list.length){
-    return teams_list[id];
-  }
-  else{
-    return "";
-  }
-  
-};
-
-function GetTournamentById(id){
-  if(id => 0 && id < tournament_list.length){
-    return tournament_list[id];
-  }
-  else{
-    return "";
-  }
-};
 
 function GetMatchesByTeam(team_name){
-  var filtered_matches = matches_data.filter(element => element.home_team===team_name || element.away_team===team_name);
+  var filtered_matches = matches_data.filter(element => element.home_team.team_name===team_name || 
+      element.away_team.team_name===team_name);
   var result = matches_full_data(filtered_matches, true, true);
   return result; 
 };
 
 function GetMatchesByTeamAndStatus(team_name, status){
-  var filtered_matches = matches_data.filter(element => element.home_team===team_name || element.away_team===team_name)
+  var filtered_matches = matches_data.filter(element => element.home_team.team_name===team_name || 
+      element.away_team.team_name===team_name)
   if(status==='played'){
     var full_data_played = matches_full_data(filtered_matches, true, false);
     return full_data_played;
@@ -125,13 +117,13 @@ function GetMatchesByTeamAndStatus(team_name, status){
 };
 
 function GetMatchesByTournament(tournament){
-  var filtered_matches = matches_data.filter(element => element.tournament===tournament);
+  var filtered_matches = matches_data.filter(element => element.tournament.tournament_name===tournament);
   var result = matches_full_data(filtered_matches, true, true);
   return result; 
 };
 
 function GetMatchesByTournamentAndStatus(tournament, status){
-  var filtered_matches = matches_data.filter(element => element.tournament===tournament)
+  var filtered_matches = matches_data.filter(element => element.tournament.tournament_name===tournament)
   if(status==='played'){
     var full_data_played = matches_full_data(filtered_matches, true, false);
     return full_data_played;
@@ -145,6 +137,20 @@ function GetMatchesByTournamentAndStatus(tournament, status){
 
 
 // DB classes
+class Team {
+  constructor(team_id, team_name) {
+      this.team_id = team_id;
+      this.team_name = team_name;
+  }
+}
+
+class Tournament{
+  constructor(tournament_id, tournament_name) {
+    this.tournament_id = tournament_id;
+    this.tournament_name = tournament_name;
+  }
+}
+
 class Match {
   constructor(home_team, away_team, tournament, start_time, status, index) {
       this.home_team = home_team;
@@ -174,14 +180,3 @@ exports.GetMatchesByTeam = GetMatchesByTeam;
 exports.GetMatchesByTeamAndStatus = GetMatchesByTeamAndStatus;
 exports.GetMatchesByTournament = GetMatchesByTournament;
 exports.GetMatchesByTournamentAndStatus = GetMatchesByTournamentAndStatus;
-exports.GetTeamById = GetTeamById;
-exports.GetTournamentById = GetTournamentById;
-
-
-function test(){
-  
-  return {teams: teams_list, tournament: tournament_list};
-}
-
-
-exports.test = test;
